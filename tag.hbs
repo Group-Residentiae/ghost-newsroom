@@ -1,0 +1,159 @@
+{{!< default}}
+
+{{#tag}}
+<main class="page tag-page">
+    <div class="page-container">
+        {{>breadcrumbs classNames=" page__breadcrumbs"}}
+        <div class="tag-page__wrapper">
+            <div class="tag-page__data">
+                <header class="page-header page-header--tag-page">
+                    {{#if feature_image}}
+                            <picture class="page-header__img-wrapper">
+                            <source srcset="
+                            {{img_url feature_image size="2000" format="webp" }} 2000w, 
+                            {{img_url feature_image size="1600" format="webp" }} 1600w, 
+                            {{img_url feature_image size="1200" format="webp" }} 1200w, 
+                            {{img_url feature_image size="960" format="webp" }} 960w, 
+                            {{img_url feature_image size="720" format="webp" }} 720w, 
+                            {{img_url feature_image size="480" format="webp" }} 480w, 
+                            {{img_url feature_image size="400" format="webp" }} 400w"
+                                sizes="(max-width: 1000px) 95vw, (max-width: 1240px) 68vw, 821px" type="image/webp">
+                            <img class="page-header__img" srcset="
+                            {{img_url feature_image size="2000"}} 2000w,
+                            {{img_url feature_image size="1600"}} 1600w,
+                            {{img_url feature_image size="1200"}} 1200w, 
+                            {{img_url feature_image size="960"}} 960w, 
+                            {{img_url feature_image size="720"}} 720w, 
+                            {{img_url feature_image size="480"}} 480w, 
+                            {{img_url feature_image size="400"}} 400w"
+                                sizes="(max-width: 1000px) 95vw, (max-width: 1240px) 68vw, 821px" src="{{img_url feature_image size="2000"}}" alt="{{title}} {{t "Tag image"}}" />
+                            </picture>
+                    {{/if}}
+                    <h1 class="page-header__title">
+                        {{name}}
+                    </h1>
+                    {{#if description}}
+                    <p class="page-header__excerpt">
+                        {{description}}
+                    </p>
+                    {{/if}}
+                </header>
+{{/tag}}    
+                <section class="tag-posts">
+                    {{#foreach posts}}
+                        {{#if @first}}
+                            <div class="tag-posts__grid"{{#match pagination.next "!=" null}} data-load-more-posts="enable"{{else}} data-load-more-posts="disable"{{/match}}>
+                            {{>post-card/post-card-big-primary showExcerpt="true"}}
+                        {{else if @last}}
+                            {{>post-card/post-card-default showAuthors="true"}}
+                            </div>
+                        {{else}}
+                            {{>post-card/post-card-default showAuthors="true"}}
+                        {{/if}}
+                    {{/foreach}}
+                    {{#match pagination.next "!=" null}}
+                        {{>button btnType="loadMore"}}
+                    {{/match}}
+                </section>
+            </div>
+
+            <aside class="sidebar{{#if @custom.advertisement_image}} sidebar--with-adv-img{{/if}}">
+                <div class="sidebar__posts-wrapper">
+                    <span class="sidebar__posts-title">
+                        {{t "Featured"}}
+                    </span>
+                    <div class="sidebar__slider">
+                        <div class="swiper">
+                            <div class="swiper-wrapper">
+                                {{#get "posts" limit=3 include="tags,authors" order="published_at desc" filter="featured:true"}}
+                                    {{#if posts}}
+                                        {{#foreach posts}}
+                                            {{>post-card/post-card-slide}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/get}}
+                            </div>
+                        </div>
+
+                        <div class="swiper-nav-btn swiper-button-prev">{{>icons/slider-nav-icon}}</div>
+                        <div class="swiper-nav-btn swiper-button-next">{{>icons/slider-nav-icon}}</div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar__posts-wrapper">
+                    <span class="sidebar__posts-title">
+                        {{t "Latest"}}
+                    </span>
+                    {{#get "posts" limit=3 include="tags,authors" order="published_at desc"}}
+                        {{#if posts}}
+                            <div class="sidebar__posts">
+                                {{#foreach posts}}
+                                {{>post-card/post-card-big-secondary}}
+                                {{/foreach}}
+                            </div>
+                        {{/if}}
+                    {{/get}}
+                </div>
+
+                {{#if @custom.advertisement_image}}
+                <div class="advertisement">
+                    <picture>
+                        <source srcset="
+                        {{img_url @custom.advertisement_image size="2000" format="webp" }} 2000w, 
+                        {{img_url @custom.advertisement_image size="1600" format="webp" }} 1600w, 
+                        {{img_url @custom.advertisement_image size="1200" format="webp" }} 1200w, 
+                        {{img_url @custom.advertisement_image size="960" format="webp" }} 960w, 
+                        {{img_url @custom.advertisement_image size="720" format="webp" }} 720w, 
+                        {{img_url @custom.advertisement_image size="480" format="webp" }} 480w, 
+                        {{img_url @custom.advertisement_image size="400" format="webp" }} 400w"
+                        sizes="(max-width: 1000px) 95vw, 300px" type="image/webp">
+                        <img srcset="
+                        {{img_url @custom.advertisement_image size="2000"}} 2000w, 
+                        {{img_url @custom.advertisement_image size="1600"}} 1600w, 
+                        {{img_url @custom.advertisement_image size="1200"}} 1200w, 
+                        {{img_url @custom.advertisement_image size="960"}} 960w, 
+                        {{img_url @custom.advertisement_image size="720"}} 720w, 
+                        {{img_url @custom.advertisement_image size="480"}} 480w, 
+                        {{img_url @custom.advertisement_image size="400"}} 400w"
+                        sizes="(max-width: 1000px) 95vw, 300px"
+                                src="{{img_url @custom.advertisement_image size="2000"}}" alt="{{@site.title}} {{t "cover image"}}" class="advertisement__img">
+                    </picture>
+                </div>
+                {{/if}}
+            </aside>
+        </div>
+    </div>
+
+    <div class="tag-page__membership membership monthly">
+
+        <h1 class="page-header__title">
+            {{t "Unlock Exclusive Content"}}
+        </h1>
+        <p class="page-header__excerpt">
+            {{t "Join Membership List and Explore Secret Posts"}}
+        </p>
+
+        <div class="membership__header">
+            <button class="membership-toggle" aria-label="{{t "Monthly or yearly toggle button"}}">
+                <span class="membership-toggle__btn membership-toggle__btn--monthly">{{t "Monthly"}}</span>
+                <span class="membership-toggle__btn membership-toggle__btn--yearly">{{t "Yearly"}}</span>
+            </button>  
+            {{#unless @member}}
+                <div class="membership-question">
+                {{t "Already have an account?"}}
+                    <a href="{{@site.url}}/signin" aria-label="{{t "Log In"}}" class="membership-question__link">{{t "Log In"}}</a>
+                </div>
+            {{/unless}}
+        </div>
+        {{#get "tiers" filter="visibility:public" include="monthly_price,yearly_price,benefits" limit="all" as |tiers|}}
+            {{#if tiers}}
+                <section class="tiers">
+                    {{#foreach tiers}}
+                        {{>tier-card}}
+                    {{/foreach}}
+                </section>
+            {{/if}}
+        {{/get}}
+    </div>
+</main>

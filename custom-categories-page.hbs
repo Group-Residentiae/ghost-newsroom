@@ -1,0 +1,99 @@
+{{!< default}}
+
+{{#page}}
+<main class="page page-categories">
+   <div class="page-container">
+        {{>breadcrumbs classNames=" page__breadcrumbs"}}
+        {{#match @page.show_title_and_feature_image}}
+        <header class="page-header">
+            {{#if feature_image}}
+                    <picture class="page-header__img-wrapper">
+                    <source srcset="
+                    {{img_url feature_image size="2800" format="webp" }} 2800w,
+                    {{img_url feature_image size="2400" format="webp" }} 2400w,
+                    {{img_url feature_image size="2000" format="webp" }} 2000w, 
+                    {{img_url feature_image size="1600" format="webp" }} 1600w, 
+                    {{img_url feature_image size="1200" format="webp" }} 1200w, 
+                    {{img_url feature_image size="960" format="webp" }} 960w, 
+                    {{img_url feature_image size="720" format="webp" }} 720w, 
+                    {{img_url feature_image size="480" format="webp" }} 480w, 
+                    {{img_url feature_image size="400" format="webp" }} 400w"
+                        sizes="(max-width: 1300px) 97vw, 1240px" type="image/webp">
+                    <img class="page-header__img" srcset="
+                    {{img_url feature_image size="2800"}} 2800w,
+                    {{img_url feature_image size="2400"}} 2400w,
+                    {{img_url feature_image size="2000"}} 2000w,
+                    {{img_url feature_image size="1600"}} 1600w,
+                    {{img_url feature_image size="1200"}} 1200w, 
+                    {{img_url feature_image size="960"}} 960w, 
+                    {{img_url feature_image size="720"}} 720w, 
+                    {{img_url feature_image size="480"}} 480w, 
+                    {{img_url feature_image size="400"}} 400w"
+                        sizes="(max-width: 1300px) 97vw, 1240px" src="{{img_url feature_image size="2800"}}" alt="{{title}} {{t "Page image"}}" />
+                    </picture>
+            {{/if}}
+            <h1 class="page-header__title">
+                {{title}}
+            </h1>
+            {{#if custom_excerpt}}
+            <p class="page-header__excerpt">
+                {{custom_excerpt}}
+            </p>
+            {{/if}}
+        </header>
+        {{/match}}
+{{/page}}
+
+      <section class="categories">
+         {{#get "tags" limit="all" include="count.posts"}}
+            {{#if tags}}
+               {{#foreach tags}}
+               <a class="category-card" href="{{url}}" aria-label="{{t "Tag page link"}}">
+                  {{#if feature_image}}
+                     <picture class="category-card__img-wrapper">
+                        <source srcset=" 
+                        {{img_url feature_image size="1600" format="webp" }} 1600w, 
+                        {{img_url feature_image size="1200" format="webp" }} 1200w, 
+                        {{img_url feature_image size="960" format="webp" }} 960w, 
+                        {{img_url feature_image size="720" format="webp" }} 720w, 
+                        {{img_url feature_image size="480" format="webp" }} 480w, 
+                        {{img_url feature_image size="400" format="webp" }} 400w"
+                           sizes="(max-width: 600px) 92vw, (max-width: 1000px) 47vw, 403px" type="image/webp">
+                        <img class="category-card__img" srcset="
+                        {{img_url feature_image size="1600"}} 1600w,
+                        {{img_url feature_image size="1200"}} 1200w, 
+                        {{img_url feature_image size="960"}} 960w, 
+                        {{img_url feature_image size="720"}} 720w, 
+                        {{img_url feature_image size="480"}} 480w, 
+                        {{img_url feature_image size="400"}} 400w"
+                           sizes="(max-width: 600px) 92vw, (max-width: 1000px) 47vw, 403px" src="{{img_url feature_image size="1600"}}" alt="{{title}} {{t "Tag image"}}" />
+                     </picture>
+                  {{else}}
+                     <div class="category-card__img-wrapper{{#if @custom.dark_mode_logo}} has-dark-version{{/if}}">
+                        {{#if @site.logo}}
+                           {{#if @custom.dark_mode_logo}}
+                           <img src="{{img_url @custom.dark_mode_logo}}" alt="{{@site.title}} {{t "logo"}}" data-dark-mode-type="dark-logo" class="category-card__no-img category-card__no-img--dark"/>
+                           {{/if}}
+                           <img src="{{img_url @site.logo}}" alt="{{@site.title}} {{t "logo"}}" data-dark-mode-type="light-logo" class="category-card__no-img category-card__no-img--light"/>
+                           {{else}}
+                           <h3 class="category-card__no-img-title">{{@site.title}}</h3>
+                        {{/if}}
+                     </div>
+                  {{/if}}
+                  <div class="category-card__content">
+                     <span class="category-card__posts-count">
+                        {{count.posts}}
+                        {{plural count.posts empty=(t "No Posts") singular=(t "Post") plural=(t "Posts")}}
+                     </span>
+                     <span class="category-card__name">{{name}}</span>
+                     {{#if description}}
+                     <span class="category-card__description">{{description}}</span>
+                     {{/if}}
+                  </div>
+               </a>
+               {{/foreach}}
+            {{/if}}
+         {{/get}}
+      </section>
+   </div>
+</main>
