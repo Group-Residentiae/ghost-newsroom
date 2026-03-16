@@ -1,10 +1,24 @@
 {{!< default}}
 
+{{!-- Homepage premium ad slot: Arche Display (replace inner content with ad script/image when needed). --}}
+<section class="homepage-arche" aria-label="Arche display">
+    <div class="homepage-arche__inner">
+        <div class="homepage-arche__label">ARCHE DISPLAY</div>
+    </div>
+</section>
+
 <main class="main">
      {{!-- First Section --}}
     {{#match @custom.first_section_layout_type "!=" "None"}}
         {{>posts-layout layoutTag = @custom.first_section_tag_or_title type = @custom.first_section_layout_type layoutCount = @custom.first_section_posts_count_or_tag}}
     {{/match}}
+
+    {{!-- Homepage premium ad slot: Giga banner (replace inner content with ad script/image when needed). --}}
+    <section class="homepage-giga-banner" aria-label="Giga bannière">
+        <div class="homepage-giga-banner__inner">
+            Giga-bannière : 1 000×90 px
+        </div>
+    </section>
 
     {{!-- Second Section --}}
     {{#match @custom.second_section_layout_type "!=" "None"}}
