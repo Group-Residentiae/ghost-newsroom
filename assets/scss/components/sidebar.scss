@@ -1,0 +1,383 @@
+.sidebar {
+  max-width: 300px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  transition: border-color $transition-time ease;
+
+  &__posts-title {
+    @include font--titles-H4;
+    color: var(--dark-color);
+    transition: color $transition-time ease;
+  }
+
+  &__posts-wrapper,
+  &__posts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .post-card-big-secondary {
+    min-height: 169px;
+    height: auto;
+
+    &__heading,
+    &__meta {
+      margin-left: 6px;
+    }
+
+    &__heading {
+      @include font--titles-H5;
+    }
+
+    &__content {
+      padding-right: 10px;
+    }
+
+    &__meta {
+      margin-top: 8px;
+      min-height: auto;
+    }
+
+    .post-comment-count {
+      height: 20px;
+    }
+  }
+
+  &__slider {
+    position: relative;
+    margin-bottom: 24px;
+  }
+}
+
+/* =========================
+   Sticky wrapper (Reco + Ad)
+   ========================= */
+
+.sidebar__sticky {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Sur mobile/tablette, on évite les sticky dans la sidebar */
+@media (max-width: 1000px) {
+  .sidebar__sticky {
+    position: static;
+    top: auto;
+  }
+}
+
+/* =========================
+   Recommendations (Ghost) — rendu "Brief"
+   IMPORTANT: basé sur le markup DEFAULT Ghost:
+   .recommendations / .recommendation / .recommendation-favicon / .recommendation-title / .recommendation-url / .recommendation-description
+   ========================= */
+
+.sidebar__recommendations {
+  .sidebar__reco-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  /* "Show all" comme un lien */
+  .sidebar__reco-all {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+
+    color: var(--dark-color);
+    opacity: 0.7;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    transition: opacity $transition-time ease, color $transition-time ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* UL */
+  .recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* LI */
+  .recommendation {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* A = card Brief-like */
+  .recommendation > a {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    grid-template-areas:
+      "icon title"
+      "icon url"
+      "icon desc";
+    gap: 4px 12px;
+
+    padding: 12px;
+    border: 1px solid var(--stroke-color);
+    border-radius: $border-radius-block;
+    background: var(--white-color);
+
+    text-decoration: none;
+    color: inherit;
+
+    transition: opacity $transition-time ease, border-color $transition-time ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  /* Bloc favicon = carré à gauche */
+  .recommendation-favicon {
+    grid-area: icon;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  /* ✅ Le point clé : contenir l'image (sinon effet "gros carré") */
+  .recommendation-favicon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .recommendation-title {
+    grid-area: title;
+    margin: 0;
+
+    @include font--titles-H5;
+    color: var(--dark-color);
+    transition: color $transition-time ease;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .recommendation-url {
+    grid-area: url;
+    margin: 0;
+
+    opacity: 0.7;
+    font-size: 13px;
+    line-height: 1.2;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .recommendation-description {
+    grid-area: desc;
+    margin: 0;
+
+    opacity: 0.85;
+    font-size: 14px;
+    line-height: 1.35;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* =========================
+   Existing sticky helper
+   ========================= */
+
+.last-elem {
+  transition: top $transition-time ease;
+  position: sticky;
+  top: 20px;
+}
+
+.last-elem--header-show {
+  top: 105px;
+}
+
+/* =========================
+   Advertisement (évite le crop)
+   ========================= */
+
+.advertisement {
+  border-radius: $border-radius-block;
+  overflow: hidden;
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;         /* ✅ */
+    object-fit: contain;  /* ✅ */
+  }
+
+  &--hover {
+    transition: opacity $transition-time ease;
+    will-change: opacity;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.swiper {
+  width: 100%;
+  border-radius: $border-radius-block;
+}
+
+.swiper-pagination {
+  height: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  bottom: -24px !important;
+}
+
+.swiper-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  background-color: var(--white-color);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 !important;
+
+  transition: opacity $transition-time ease, background-color $transition-time ease;
+
+  &::after {
+    content: unset;
+  }
+
+  svg {
+    width: auto;
+    height: auto;
+
+    path {
+      transition: fill $transition-time ease;
+      fill: var(--dark-color);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.swiper-button-prev {
+  left: -20px;
+}
+
+.swiper-button-next {
+  right: -20px;
+
+  svg {
+    rotate: 180deg;
+  }
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--stroke-color);
+  opacity: 1;
+  transition: background-color $transition-time ease;
+  will-change: width;
+}
+
+.swiper-pagination-bullet-active {
+  width: 48px;
+  border-radius: 200px;
+  overflow: hidden;
+
+  position: relative;
+
+  background-color: var(--stroke-color);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: var(--progress);
+    border-radius: 200px;
+
+    transition: width $transition-time;
+
+    background-color: var(--dark-color);
+  }
+}
+
+@media (max-width: 1000px) {
+  .sidebar {
+    &--with-adv-img {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+
+      .sidebar__posts-wrapper {
+        &:first-of-type {
+          grid-column: 1/3;
+        }
+
+        &:nth-of-type(2) {
+          .sidebar__posts {
+            flex-direction: column;
+            height: 100%;
+
+            .post-card-big-secondary {
+              max-width: 100%;
+              min-height: 226px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    &--with-adv-img {
+      display: flex;
+    }
+  }
+}
